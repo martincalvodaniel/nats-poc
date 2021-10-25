@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: nats-poc
+resources:
+  - a-configmap.yaml
+  - a-deployment.yaml
+  - b-configmap.yaml
+  - b-deployment.yaml
+  - c-configmap.yaml
+  - c-deployment.yaml
+  - d-configmap.yaml
+  - d-deployment.yaml
+  - e-configmap.yaml
+  - e-deployment.yaml
+  - scheduler-configmap.yaml
+  - scheduler-deployment.yaml

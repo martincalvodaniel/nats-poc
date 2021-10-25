@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.5.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "com.palantir.docker" version "0.30.0"
 }
 
 group = 'com.dmartinc.nats.poc'
@@ -28,11 +29,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-undertow'
-//	testImplementation 'junit:junit:4.12'
-//	testImplementation 'org.mockito:mockito-core:2.23.4'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+docker {
+	name "nats-poc:$version"
+	files tasks.bootJar.outputs
+	copySpec.from("$rootDir/run.sh")
 }

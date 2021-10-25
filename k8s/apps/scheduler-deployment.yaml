@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nats-poc-scheduler
+  name: nats-poc-scheduler
+  namespace: nats-poc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats-poc-scheduler
+  template:
+    metadata:
+      labels:
+        app: nats-poc-scheduler
+    spec:
+      containers:
+        - image: nats-poc:0.0.1-SNAPSHOT
+          imagePullPolicy: Never
+          name: nats-poc
+          ports:
+            - containerPort: 10960
+          env:
+            - name: JAVA_OPTS
+              value: "
+              -Dspring.config.location=/configuration/application.properties
+              -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+              -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.port=10960
+              -Dcom.sun.management.jmxremote.rmi.port=10960 -Djava.rmi.server.hostname=127.0.0.1
+              "
+          volumeMounts:
+            - name: application-config
+              mountPath: "/configuration"
+      volumes:
+        - name: application-config
+          configMap:
+            name: nats-poc-scheduler
+            items:
+              - key: application.properties
+                path: application.properties

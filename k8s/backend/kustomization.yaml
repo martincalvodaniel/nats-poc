@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: nats-poc
+resources:
+  - mongo-deployment.yaml
+  - mongo-service.yaml
+  - nats-configmap.yaml
+  - nats-deployment.yaml
+  - nats-service.yaml

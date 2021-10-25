@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nats-poc-e
+  name: nats-poc-e
+  namespace: nats-poc
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nats-poc-e
+  template:
+    metadata:
+      labels:
+        app: nats-poc-e
+    spec:
+      containers:
+        - image: nats-poc:0.0.1-SNAPSHOT
+          imagePullPolicy: Never
+          name: nats-poc
+          ports:
+            - containerPort: 10960
+          env:
+            - name: JAVA_OPTS
+              value: "
+              -Dspring.config.location=/configuration/application.properties
+              -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+              -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.port=10960
+              -Dcom.sun.management.jmxremote.rmi.port=10960 -Djava.rmi.server.hostname=127.0.0.1
+              "
+          volumeMounts:
+            - name: application-config
+              mountPath: "/configuration"
+      volumes:
+        - name: application-config
+          configMap:
+            name: nats-poc-e
+            items:
+              - key: application.properties
+                path: application.properties

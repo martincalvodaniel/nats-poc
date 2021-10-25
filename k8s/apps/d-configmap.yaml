@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nats-poc-d
+  namespace: nats-poc
+  labels:
+    app: nats-poc-d
+data:
+  application.properties: |-
+    com.dmartinc.nats.poc.queue=d
+    com.dmartinc.nats.poc.server=nats://nats.nats-poc.svc.cluster.local:4222
+    com.dmartinc.nats.poc.subscription=d
+    com.dmartinc.nats.poc.topics[0]=a
+    com.dmartinc.nats.poc.topics[1]=b
+    com.dmartinc.nats.poc.topics[2]=c
+    com.dmartinc.nats.poc.topics[3]=d
+    com.dmartinc.nats.poc.topics[4]=e
+
+    spring.data.mongodb.auto-index-creation=false
+    spring.data.mongodb.database=nats-poc
+    spring.data.mongodb.host=mongo.nats-poc.svc.cluster.local
